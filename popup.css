@@ -1,0 +1,24 @@
+#button_start{
+    color: #fff;
+    background-color: #0a58ca;
+    border-color: #0a53be;
+    width: 200px;
+}
+
+#button_stop{
+    color:#fff;
+    background-color: green;
+    border-color:green;
+    width:200px;
+}
+
+#button_reset{
+    color: #fff;
+    background-color: red;
+    border-color: red;
+    width: 200px;
+}
+
+.top_space{
+    margin-top:10px;
+}
