@@ -1,4 +1,8 @@
-#button_start{
+body{
+    background-color: green;
+}
+
+/* #button_start{
     color: #fff;
     background-color: #0a58ca;
     border-color: #0a53be;
@@ -17,6 +21,12 @@
     background-color: red;
     border-color: red;
     width: 200px;
+} */
+
+#flex{
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .top_space{

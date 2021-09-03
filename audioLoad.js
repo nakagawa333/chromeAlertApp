@@ -1,11 +1,19 @@
-function audioLoad(path){
-    let audio = new Audio(path)
-    if(audio.readyState === 4){
+class myAudio extends Audio{
+
+    constructor(urlStr){
+        super(urlStr)
+    }
+    audioLoad(){
+        const audio = this
+        audio.load()
         audio.play()
-    } else {
-        audio.addEventListener("canplaythrough",(e) => {
-            audio.removeEventListener("canplaythrough",arguments.callee)
-            audio.play()
-        })
+    }
+
+    stop(){
+        const audio = this
+        if(audio !== undefined){
+            audio.pause()
+            audio.currentTime = 0           
+        }
     }
 }
