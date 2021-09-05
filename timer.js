@@ -21,24 +21,21 @@ class Timer{
         if(js.intervalId !== 0) return false
         js.intervalId = setTimeout(function main(){
             let differ = js.differ
-            let sec = new String(Math.floor(differ/1000) % 60)
-            let min = new String(Math.floor(differ/1000/60) % 60)
-            let hour = new String(Math.floor(differ/100060/60))
-    
-            sec = sec.length === 1 ? "0" + sec : sec
-            min = min.length === 1 ? "0" + min : min
-            hour = hour.length === 1 ? "0" + hour : hour
-    
+
             //タイマー完了した場合
             if(differ === 0) {
-                js.intervalId = 0;
-                 
+                js.intervalId = 0; 
                 return false
             }
-    
+
+            let timeObj = secMinHour(differ)
+            let sec = timeObj["sec"]
+            let min = timeObj["min"]
+            let hour = timeObj["hour"]
+
             setValue(sec,min,hour)
             js.differ = differ - TIME
-    
+
             js.intervalId = setTimeout(main,TIME)
         },TIME)
     }
@@ -54,7 +51,7 @@ class Timer{
 
     restart(){
         this.clear()
-        this.differ = this.DIFFER
+        this.differ = this.DIFFER - 1000
         this.start()
     }
 
@@ -66,4 +63,15 @@ class Timer{
     set setTimer(time){
         this.time = time
     }
+}
+
+function secMinHour(differ){
+    let sec = new String(Math.floor(differ/1000) % 60)
+    let min = new String(Math.floor(differ/1000/60) % 60)
+    let hour = new String(Math.floor(differ/3600000))
+
+    sec = sec.length === 1 ? "0" + sec : sec
+    min = min.length === 1 ? "0" + min : min
+    hour = hour.length === 1 ? "0" + hour : hour
+    return {"sec":sec,"min":min,"hour":hour}
 }
