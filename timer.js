@@ -36,6 +36,7 @@ class Timer{
             setValue(sec,min,hour)
             js.differ = differ - TIME
 
+            console.log(js.differ)
             js.intervalId = setTimeout(main,TIME)
         },TIME)
     }
