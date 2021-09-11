@@ -1,37 +1,15 @@
 window.onload = (e) => {
-    chrome.runtime.sendMessage({
-        event:"onload"
+    // chrome.runtime.sendMessage({
+    //     event:"onload"
 
-    },function(response){
-        let restTime = response["restTime"]
-        console.log(response)
-    })
-    const buattonStart = document.getElementById("button_start")
-    // chrome.storage.sync.get(["timer"],function(result){
-    //     if(result["timer"]){
-    //         let timer = result["timer"]
-    //         let workTimeBool = timer.workTime.bool
-    //         let restTimeBool = timer.restTime.bool
+    // },function(response){
+    //     let restTime = response["restTime"]
+    //     console.log(response)
 
-    //         if(!restTimeBool && !workTimeBool){
-    //             differSet(timer.workTime.value.differ)
-
-    //         } else if(restTimeBool && !workTimeBool){
-    //             differSet(timer.restTime.value.differ)
-
-    //         } else if(!restTimeBool && workTimeBool){
-    //             differSet(timer.workTime.value.differ)
-
-    //         }
-    //     }
     // })
+    const buattonStart = document.getElementById("button_start")
     //start押下
     buattonStart.onclick = (e) => {
-        // if(t.intervalId === 0){
-        //     t.differ = t.differ - 1000
-        //     let audio = new myAudio("./Audio/start.wav")
-        //     audio.audioLoad()
-        // }
 
         chrome.runtime.sendMessage({
             event: "click",
@@ -39,7 +17,6 @@ window.onload = (e) => {
         }, function(response) {
             console.log("start",response)
         });
-        //t.start()
     }
 
     //stop押下
