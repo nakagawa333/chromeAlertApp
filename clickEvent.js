@@ -1,12 +1,12 @@
 window.onload = (e) => {
-    // chrome.runtime.sendMessage({
-    //     event:"onload"
 
-    // },function(response){
-    //     let restTime = response["restTime"]
-    //     console.log(response)
+    chrome.runtime.sendMessage({
+        event:"onload"
 
-    // })
+    },function(response){
+        console.log(response)
+    })
+    
     const buattonStart = document.getElementById("button_start")
     //start押下
     buattonStart.onclick = (e) => {
@@ -15,7 +15,11 @@ window.onload = (e) => {
             event: "click",
             state: "start"
         }, function(response) {
-            console.log("start",response)
+            if(response === "スタート"){
+                let startAudio = new myAudio("./Audio/start.wav")
+                startAudio.audioLoad()
+                console.log(startAudio.readyState)
+            }
         });
     }
 
@@ -26,7 +30,7 @@ window.onload = (e) => {
             event: "click",
             state:"stop"
         }, function(response){
-            console.log(response)
+
         })
     }
 
@@ -59,7 +63,7 @@ window.onload = (e) => {
 
 function getTimerData(key){
     return new Promise((res,rej) => {
-        chrome.storage.sync.get(key, function(result) {
+        chrome.storage.local.get(key, function(result) {
             if (chrome.runtime.lastError) {
                 return rej(chrome.runtime.lastError);
             }

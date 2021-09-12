@@ -11,15 +11,10 @@ chrome.storage.onChanged.addListener(function(changes,namespace){
             let timer = changes[key]
             let newValue = timer["newValue"]
             let oldValue = timer["oldValue"]
-            if(newValue["workSubDiffer"] !== newValue["workDiffer"]){
+            if(newValue["workSubDiffer"] !== oldValue["workDiffer"]){
                 //作業タイマー作動時
                 differSet(newValue["workSubDiffer"])
-            } else if(newValue["workSubDiffer"] === newValue["workDiffer"]){
-                //作業タイマーが終了した場合
-                differSet(newValue["restSubDiffer"])
-            } else if(newValue["restSubDiffer"] !== newValue["restDiffer"]){
-                differSet(newValue["restSubDiffer"])
-            } else if(newValue["restSubDiffer"] === newValue["restDiffer"]){
+            } else if(newValue["restSubDiffer"] !== oldValue["restDiffer"]){
                 differSet(newValue["restSubDiffer"])
             }
     }

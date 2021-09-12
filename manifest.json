@@ -1,13 +1,13 @@
 {
-    "name": "Chrome Extension MV3",
-    "description": "Learning all about Chrome Extensions Manifest Version 3!",
+    "name": "眼精疲労対策タイマー",
+    "description": "しっかりと休憩を取って、眼精疲労から眼を守りましょう",
     "version": "0.1.0",
     "manifest_version":3,
     "content_security_policy": {
         "extension_pages": "script-src 'self'; object-src 'self'"
     },
     "background": {
-        "service_worker": "./background.js",
+        "service_worker": "./Background/background.js",
         "type":"module"
     },
 
