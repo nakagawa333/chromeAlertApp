@@ -16,6 +16,7 @@ chrome.alarms.onAlarm.addListener(e => {
 
                 } else {
                     timer["workSubDiffer"] = timer["workDiffer"]
+                    chrome.alarms.clear("work",function(){})
                     chrome.alarms.create("rest", {
                         when:scheduledTime + 1000
                     });
@@ -32,13 +33,14 @@ chrome.alarms.onAlarm.addListener(e => {
                 if(0 < restSubDiffer){
                     restSubDiffer -= 1000
                     timer["restSubDiffer"] = restSubDiffer
-        
+
                     chrome.alarms.create("rest", {
                         when:scheduledTime + 1000
                     });
         
                 } else {
                     timer["restSubDiffer"] = timer["restDiffer"]
+                    chrome.alarms.clear("rest",function(){})
                     chrome.alarms.create("work", {
                         when:scheduledTime + 1000
                     });

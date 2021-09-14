@@ -1,10 +1,24 @@
 window.onload = (e) => {
-
     chrome.runtime.sendMessage({
         event:"onload"
 
     },function(response){
-        console.log(response)
+        if(response !== "失敗しました"){
+            const name = response.name
+            const timer = response.timer
+            switch(name){
+                case "":
+                    differSet(timer["workDiffer"])
+                    break
+                case "work":
+                    differSet(timer["workSubDiffer"])
+                    break
+                
+                case "rest":
+                    differSet(timer["restSubDiffer"])
+                    break
+            }
+        }
     })
     
     const buattonStart = document.getElementById("button_start")
@@ -18,7 +32,6 @@ window.onload = (e) => {
             if(response === "スタート"){
                 let startAudio = new myAudio("./Audio/start.wav")
                 startAudio.audioLoad()
-                console.log(startAudio.readyState)
             }
         });
     }
@@ -30,7 +43,7 @@ window.onload = (e) => {
             event: "click",
             state:"stop"
         }, function(response){
-
+            
         })
     }
 
@@ -41,11 +54,10 @@ window.onload = (e) => {
             event: "click",
             state: "reset"
         }, function(response) {
-            const diff = Number(response)
-            differSet(diff)
+            if(typeof response === "number"){
+                differSet(response)
+            }
         });
-        // t.reset()
-        // differSet(t)
     }
 
     // const buttonRestart = document.getElementById("button_restart")
@@ -59,17 +71,6 @@ window.onload = (e) => {
     //     // differSet(t)
     //     // t.restart()
     // }    
-}
-
-function getTimerData(key){
-    return new Promise((res,rej) => {
-        chrome.storage.local.get(key, function(result) {
-            if (chrome.runtime.lastError) {
-                return rej(chrome.runtime.lastError);
-            }
-            return res(result)
-        }); 
-    })
 }
 
 function differSet(differ){
