@@ -3,21 +3,21 @@ window.onload = (e) => {
         event:"onload"
 
     },function(response){
+        console.log(response)
         if(response !== "失敗しました"){
-            const name = response.name
-            const timer = response.timer
-            switch(name){
-                case "":
-                    differSet(timer["workDiffer"])
-                    break
-                case "work":
-                    differSet(timer["workSubDiffer"])
-                    break
+            // const timer = response.timer
+            // switch(name){
+            //     case "":
+            //         differSet(timer["workDiffer"])
+            //         break
+            //     case "work":
+            //         differSet(timer["workSubDiffer"])
+            //         break
                 
-                case "rest":
-                    differSet(timer["restSubDiffer"])
-                    break
-            }
+            //     case "rest":
+            //         differSet(timer["restSubDiffer"])
+            //         break
+            // }
         }
     })
     
