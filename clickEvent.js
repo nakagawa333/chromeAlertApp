@@ -1,26 +1,4 @@
-window.onload = (e) => {
-    chrome.runtime.sendMessage({
-        event:"onload"
-
-    },function(response){
-        console.log(response)
-        if(response !== "失敗しました"){
-            // const timer = response.timer
-            // switch(name){
-            //     case "":
-            //         differSet(timer["workDiffer"])
-            //         break
-            //     case "work":
-            //         differSet(timer["workSubDiffer"])
-            //         break
-                
-            //     case "rest":
-            //         differSet(timer["restSubDiffer"])
-            //         break
-            // }
-        }
-    })
-    
+window.onload = (e) => {    
     const buattonStart = document.getElementById("button_start")
     //start押下
     buattonStart.onclick = (e) => {
@@ -75,7 +53,7 @@ window.onload = (e) => {
 
 function differSet(differ){
     const DIFFER = differ
-    let timeObj = secMinHour(DIFFER)
+    let timeObj = getSecMinHour(DIFFER)
 
     let sec = timeObj["sec"]
     let min = timeObj["min"]

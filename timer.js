@@ -28,7 +28,7 @@ class Timer{
                 return false
             }
 
-            let timeObj = secMinHour(differ)
+            let timeObj = getSecMinHour(differ)
             let sec = timeObj["sec"]
             let min = timeObj["min"]
             let hour = timeObj["hour"]
@@ -66,7 +66,7 @@ class Timer{
     }
 }
 
-function secMinHour(differ){
+function getSecMinHour(differ){
     let sec = new String(Math.floor(differ/1000) % 60)
     let min = new String(Math.floor(differ/1000/60) % 60)
     let hour = new String(Math.floor(differ/3600000))

@@ -6,7 +6,7 @@ chrome.storage.onChanged.addListener(function(changes,namespace){
     const oldValue = value["oldValue"]
     switch(key){
         case "differ":
-            let secMinHourOBj = secMinHour(changes[key]["newValue"])
+            let secMinHourOBj = getSecMinHour(changes[key]["newValue"])
             setValue(secMinHourOBj["sec"],secMinHourOBj["min"],secMinHourOBj["hour"])
             break;
 

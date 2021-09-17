@@ -13,13 +13,14 @@ chrome.alarms.onAlarm.addListener(e => {
                     chrome.alarms.create("work", {
                         when:scheduledTime + 1000
                     });
-        
+
                 } else {
                     work["workSubDiffer"] = work["workDiffer"]
                     chrome.alarms.clear("work",function(){})
                     chrome.alarms.create("rest", {
                         when:scheduledTime + 1000
                     });
+                    work["isEvent"] = false
                 }
                 chrome.storage.local.set({'work':work},function(){})
             }
@@ -37,9 +38,13 @@ chrome.alarms.onAlarm.addListener(e => {
                     chrome.alarms.create("rest", {
                         when:scheduledTime + 1000
                     });
+
+                    rest["isEvent"] = true
         
                 } else {
+                    //初期化
                     rest["restSubDiffer"] = rest["restDiffer"]
+                    rest["isEvent"] = false
                     chrome.alarms.clear("rest",function(){})
                     chrome.alarms.create("work", {
                         when:scheduledTime + 1000
