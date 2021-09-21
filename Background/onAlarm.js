@@ -14,6 +14,8 @@ chrome.alarms.onAlarm.addListener(e => {
                         when:scheduledTime + 1000
                     });
 
+                    work["isEvent"] = true
+
                 } else {
                     work["workSubDiffer"] = work["workDiffer"]
                     chrome.alarms.clear("work",function(){})

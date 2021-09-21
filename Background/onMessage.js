@@ -8,14 +8,13 @@ chrome.runtime.onMessage.addListener(function (req, sender, send) {
         let restData = getTimerData("rest",chrome.storage.local)
 
         Promise.all([workData,restData]).then((values) => {
-            let work = getTimerData("work",chrome.alarms)
-            let rest = getTimerData("rest",chrome.alarms)
+            // let work = getTimerData("work",chrome.alarms)
+            // let rest = getTimerData("rest",chrome.alarms)
             let obj = {
                 "work":values[0]["work"],
                 "rest":values[1]["rest"]
             }
             send(obj)
-
         }).catch((e) => {
             send("失敗しました")
         })
@@ -36,14 +35,14 @@ chrome.runtime.onMessage.addListener(function (req, sender, send) {
                     let workObj = value[0]["work"]
                     let restObj = value[1]["rest"]
 
+                    chrome.storage.local.set({"stoChanged":true})
                     //まだ一度もタイマーを起動してない場合
                     if(!workObj.isEvent && !restObj.isEvent){
 
                         chrome.alarms.create("work", {
                             when:Date.now() + 1000
                         });
-
-                        workObj["isEvent"] = true
+                        
                         chrome.storage.local.set({"work":workObj})
                         send("スタート")
 
@@ -55,22 +54,23 @@ chrome.runtime.onMessage.addListener(function (req, sender, send) {
                                 chrome.alarms.create("work", {
                                     when:Date.now() + 1000
                                 });
+
+                                send("再スタート")
                             }
                         })
 
-                        send("再スタート")
                     } else if(restObj.isEvent){
                         //休憩時間起動時
                         //ストップボタンが押されている場合
                         rest.then((e) => {
-                            console.log(e)
                             if(!e){
                                 chrome.alarms.create("rest", {
                                     when:Date.now() + 1000
-                                });                                
+                                });
+                                
+                                send("再スタート")
                             }
                         })
-                        send("再スタート")
                     }
                 }).catch((e) => {
                     send(e)
@@ -82,17 +82,6 @@ chrome.runtime.onMessage.addListener(function (req, sender, send) {
             case "stop":{
                 chrome.alarms.clear("work")
                 chrome.alarms.clear("rest")
-                // const work = getTimerData("work",chrome.alarms)
-                // const rest = getTimerData("rest",chrome.alarms)
-                // Promise.all([work,rest]).then((values) => {
-                //     let chrAlarmArr = values.filter((e) => e)
-                //     if(chrAlarmArr.length !== 0){
-                //         let name = chrAlarmArr[0]["name"]
-                //         chrome.storage.local.get(name,function(e){
-                //             console.log(e)
-                //         })
-                //     }
-                // })
                 break;
             }
 
@@ -104,27 +93,28 @@ chrome.runtime.onMessage.addListener(function (req, sender, send) {
                 const rest = getTimerData("rest",chrome.storage.local)
 
                 Promise.all([work,rest]).then((values) => {
+                    let restObj = {}
+                    let workObj = {}
                     //休憩時間
                     if(values[1]){
-                        let restObj = values[1]["rest"]
+                        restObj = values[1]["rest"]
                         restObj["restSubDiffer"] = restObj["restDiffer"]
                         restObj["isEvent"] = false
-                        chrome.storage.local.set({"rest":restObj})
                     }
-
-                    chrome.storage.local.get("work",function(e){
-                        console.log(e)
-                    })
 
                     //作業時間
                     if(values[0]){
-                        let workObj = values[0]["work"]
+                        workObj = values[0]["work"]
                         workObj["workSubDiffer"] = workObj["workDiffer"]
                         workObj["isEvent"] = false
-                        chrome.storage.local.set({"work":workObj})
-                        send(workObj["workDiffer"])
                     }
-
+                    const obj = {
+                        "rest":restObj,
+                        "work":workObj
+                    }
+                    chrome.storage.local.set({"stoChanged":false})
+                    chrome.storage.local.set(obj)
+                    send(workObj["workDiffer"])
                 })
                 break;
             }

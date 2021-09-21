@@ -3,7 +3,6 @@ document.addEventListener('DOMContentLoaded', function(){
         event:"contentLoad"
 
     },function(response){
-        console.log("response",response)
         if(response !== "失敗しました"){
             let work = response["work"]
             let rest = response["rest"]
@@ -14,11 +13,12 @@ document.addEventListener('DOMContentLoaded', function(){
             if(!workIsEvent && !restIsEvent){
                 differSet(work["workDiffer"])
             } else if(workIsEvent){
-                
+                //作業時間作動中
                 differSet(work["workSubDiffer"])
             } else if(restIsEvent){
+                //休憩時間作動中
                 differSet(rest["restSubDiffer"])
             }
         }
-    })
-},false);
+    })   
+});

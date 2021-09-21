@@ -4,3 +4,7 @@
 import "./onInstalled.js"
 import "./onMessage.js"
 import "./onAlarm.js"
+
+// chrome.storage.local.get((e) => {
+//     console.log(e)
+// })

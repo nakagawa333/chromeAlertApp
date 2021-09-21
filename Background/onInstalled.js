@@ -19,7 +19,8 @@ chrome.runtime.onInstalled.addListener(details => {
         chrome.storage.local.set({'work':work},function(){})
 
         let restLater = new Date(nowTime)
-        restLater.setMinutes(now.getMinutes() + 2)
+        restLater.setMinutes(now.getMinutes() + 1)
+        restLater.setSeconds(now.getSeconds() + 15)
 
         let restDiffer = restLater.getTime() - nowTime
         let rest = {
@@ -27,10 +28,16 @@ chrome.runtime.onInstalled.addListener(details => {
             "restSubDiffer":restDiffer,
             "isEvent":false
         }
-        chrome.storage.local.set({'rest':rest},function(){})
+
+        let obj = {
+            'work':work,
+            'rest':rest
+        }
+
+        chrome.storage.local.set({"stoChanged":true})
+        chrome.storage.local.set(obj,function(){})
         
     })
-
     // let data = getTimerData("timer",chrome.storage.local)
     // data.then((result) => {
     //     let timer = result["timer"]
