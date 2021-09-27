@@ -34,7 +34,7 @@ chrome.runtime.onMessage.addListener(function (req, sender, send) {
                 Promise.all([workData,restData]).then((value) => {
                     let workObj = value[0]["work"]
                     let restObj = value[1]["rest"]
-
+                    
                     chrome.storage.local.set({"stoChanged":true})
                     //まだ一度もタイマーを起動してない場合
                     if(!workObj.isEvent && !restObj.isEvent){
@@ -42,7 +42,7 @@ chrome.runtime.onMessage.addListener(function (req, sender, send) {
                         chrome.alarms.create("work", {
                             when:Date.now() + 1000
                         });
-                        
+
                         chrome.storage.local.set({"work":workObj})
                         send("スタート")
 

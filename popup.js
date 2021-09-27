@@ -1,26 +1,13 @@
-function getStoChangedData(key,func){
-    return new Promise((res,rej) => {
-        func.get(key,function(result){
-            if (chrome.runtime.lastError) return rej(chrome.runtime.lastError);
-            return res(result)
-        })
-    })
-}
-
+//chromeストレージが変更された場合
 chrome.storage.onChanged.addListener(function(changes,namespace){
-    let obj = {};
     async function resGetStoChangedData(key,func){
         const result = await getStoChangedData(key,func)
         return result
     }
 
-    const chromeKey = "stoChanged"
-    resGetStoChangedData(chromeKey,chrome.storage.local).then(res => {
-        if(res[chromeKey]){
-            setValue(changes)
-        }
-    }).catch((e) => {
-        console.log(e)
+    resGetStoChangedData("stoChanged",chrome.storage.local).then(res => {
+        //キャンセル押下以外処理を実行
+        if(res["stoChanged"]) setValue(changes)
     })
 
     function setValue(changes){
@@ -40,12 +27,8 @@ chrome.storage.onChanged.addListener(function(changes,namespace){
                 if(newValue["workSubDiffer"] !== oldValue["workSubDiffer"]){
                     if(oldValue["workSubDiffer"] === 0){
                         //作業時間が終了した場合
-                        chrome.storage.local.get("rest",(res) => {
-                            if(res){
-                                const reset = res["rest"]
-                                const restDiffer = reset["restDiffer"]
-                                differSet(restDiffer)
-                            }
+                        resGetStoChangedData("rest",chrome.storage.local).then(res => {
+                            if(res) differSet(res["rest"]["restDiffer"])
                         })
                     } else {
                         differSet(newValue["workSubDiffer"])
@@ -57,13 +40,11 @@ chrome.storage.onChanged.addListener(function(changes,namespace){
 
                 if(newValue["restSubDiffer"] !== oldValue["restSubDiffer"]){
                     if(oldValue["restSubDiffer"] === 0){
-                        chrome.storage.local.get("work",(res) => {
-                            if(res){
-                                const work = res["work"]
-                                const workDiffer = work["workDiffer"]
-                                differSet(workDiffer)
-                            }
+                        //休憩時間が終了した場合
+                        resGetStoChangedData("work",chrome.storage.local).then(res => {
+                            if(res) differSet(res["work"]["workDiffer"])
                         })
+
                     } else {
                         differSet(newValue["restSubDiffer"])
                     }
@@ -71,22 +52,11 @@ chrome.storage.onChanged.addListener(function(changes,namespace){
                 break;
             
             case "timer":
-
                 if(newValue["workSubDiffer"] !== oldValue["workSubDiffer"]){
-                    if(oldValue["workSubDiffer"] === 0){
-                        //作業時間が終了した場合
-                        differSet(newValue["restDiffer"])
-                    } else {
-                        differSet(newValue["workSubDiffer"])
-                    }
+                    oldValue["workSubDiffer"] === 0 ? differSet(newValue["restDiffer"]) : differSet(newValue["workSubDiffer"])
                 } else if(newValue["restSubDiffer"] !== oldValue["restSubDiffer"]){
-                    if(oldValue["restSubDiffer"] === 0){
-                        differSet(newValue["workDiffer"])
-                    } else {
-                        differSet(newValue["restSubDiffer"])
-                    }
+                    oldValue["restSubDiffer"] === 0 ?differSet(newValue["workDiffer"]) : differSet(newValue["restSubDiffer"])
                 }
             }
         }
-    
 })

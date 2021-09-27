@@ -15,8 +15,11 @@ chrome.alarms.onAlarm.addListener(e => {
                     });
 
                     work["isEvent"] = true
-
+                    // chrome.tabs.create({
+                    //     url: '../popup.html'
+                    // });
                 } else {
+                    // 残り時間が0の場合 work
                     work["workSubDiffer"] = work["workDiffer"]
                     chrome.alarms.clear("work",function(){})
                     chrome.alarms.create("rest", {
@@ -44,6 +47,7 @@ chrome.alarms.onAlarm.addListener(e => {
                     rest["isEvent"] = true
         
                 } else {
+                    // 残り時間が0の場合 rest
                     //初期化
                     rest["restSubDiffer"] = rest["restDiffer"]
                     rest["isEvent"] = false
