@@ -2,7 +2,6 @@ window.onload = (e) => {
     const buattonStart = document.getElementById("button_start")
     //start押下
     buattonStart.onclick = (e) => {
-
         chrome.runtime.sendMessage({
             event: "click",
             state: "start"
@@ -37,18 +36,6 @@ window.onload = (e) => {
             }
         });
     }
-
-    // const buttonRestart = document.getElementById("button_restart")
-    // buttonRestart.onclick = (e) => {
-    //     chrome.runtime.sendMessage({
-    //         event:"restart"
-    //     },function(response){
-    //         const diff = Number(response)
-    //         differSet(diff)
-    //     })
-    //     // differSet(t)
-    //     // t.restart()
-    // }    
 }
 
 function differSet(differ){

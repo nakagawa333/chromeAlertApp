@@ -4,3 +4,4 @@
 import "./onInstalled.js"
 import "./onMessage.js"
 import "./onAlarm.js"
+import "./setBadge.js"

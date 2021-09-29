@@ -1,4 +1,5 @@
 import {getTimerData} from "./getTimerData.js"
+import {chromeActionSetBadgeText} from "./chromeActionSetBadgeText.js"
 
 chrome.runtime.onMessage.addListener(function (req, sender, send) {
     //フロント側ページ読み込み時
@@ -115,6 +116,8 @@ chrome.runtime.onMessage.addListener(function (req, sender, send) {
                     chrome.storage.local.set(obj)
                     send(workObj["workDiffer"])
                 })
+                
+                chromeActionSetBadgeText(60000)
                 break;
             }
 
