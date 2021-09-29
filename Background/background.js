@@ -4,14 +4,3 @@
 import "./onInstalled.js"
 import "./onMessage.js"
 import "./onAlarm.js"
-
-// chrome.tabs.create({
-//     url: '../popup.html'
-// });
-
-// let obj = {
-//     "userVisibleOnly":true
-// }
-// PushManager.subscribe(obj).then(function(pushSub){
-//     console.log(pushSub)
-// })

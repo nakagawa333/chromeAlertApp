@@ -1,19 +1,18 @@
 import {getTimerData} from "./getTimerData.js"
 
 chrome.runtime.onMessage.addListener(function (req, sender, send) {
-
     //フロント側ページ読み込み時
     if (req["event"] === "contentLoad") {
         let workData = getTimerData("work",chrome.storage.local)
         let restData = getTimerData("rest",chrome.storage.local)
 
+        let resObj = {}
         Promise.all([workData,restData]).then((values) => {
-            // let work = getTimerData("work",chrome.alarms)
-            // let rest = getTimerData("rest",chrome.alarms)
             let obj = {
                 "work":values[0]["work"],
                 "rest":values[1]["rest"]
             }
+
             send(obj)
         }).catch((e) => {
             send("失敗しました")

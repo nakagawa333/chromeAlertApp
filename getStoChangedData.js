@@ -6,3 +6,4 @@ function getStoChangedData(key,func){
         })
     })
 }
+

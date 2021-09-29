@@ -1,48 +1,53 @@
+function chrAlarmCreate(key,scheduledTime){
+    chrome.alarms.create(key, {
+        when:scheduledTime
+    });
+}
+
 chrome.alarms.onAlarm.addListener(e => {
-    //console.log(e)
     let scheduledTime = e.scheduledTime
     if(e.name === "work"){
-        chrome.storage.local.get('work', function(result) {
+        chrome.storage.local.get('work', async (result) => {
             let work = result["work"]
             if(work){
                 let workSubDiffer = work["workSubDiffer"]
                 if(0 < workSubDiffer){
                     workSubDiffer -= 1000
                     work["workSubDiffer"] = workSubDiffer
-        
-                    chrome.alarms.create("work", {
-                        when:scheduledTime + 1000
-                    });
+
+                    chrAlarmCreate("work",scheduledTime + 1000)
 
                     work["isEvent"] = true
-                    // chrome.tabs.create({
-                    //     url: '../popup.html'
-                    // });
                 } else {
                     // 残り時間が0の場合 work
                     work["workSubDiffer"] = work["workDiffer"]
-                    chrome.alarms.clear("work",function(){})
-                    chrome.alarms.create("rest", {
-                        when:scheduledTime + 1000
-                    });
+                    chrome.alarms.clear("work")
+
+                    chrAlarmCreate("rest",scheduledTime + 1000)
                     work["isEvent"] = false
+
+                    const notiOptionsObj = {
+                        type: "basic",
+                        "message":"作業時間が終わりました。目を休めて休憩しましょう！",
+                        "title":"作業時間が終わりました",
+                        "iconUrl":"../image/yosshi.jpg"
+                    }
+    
+                    chrome.notifications.create(notiOptionsObj)
                 }
-                chrome.storage.local.set({'work':work},function(){})
+                chrome.storage.local.set({'work':work})
             }
         });
 
     } else if(e.name === "rest"){
-        chrome.storage.local.get('rest', function(result) {
+        chrome.storage.local.get('rest', (result) => {
             let rest = result["rest"]
             if(rest){
                 let restSubDiffer = rest["restSubDiffer"]
                 if(0 < restSubDiffer){
                     restSubDiffer -= 1000
                     rest["restSubDiffer"] = restSubDiffer
-        
-                    chrome.alarms.create("rest", {
-                        when:scheduledTime + 1000
-                    });
+                    chrAlarmCreate("rest",scheduledTime + 1000)
 
                     rest["isEvent"] = true
         
@@ -51,12 +56,19 @@ chrome.alarms.onAlarm.addListener(e => {
                     //初期化
                     rest["restSubDiffer"] = rest["restDiffer"]
                     rest["isEvent"] = false
-                    chrome.alarms.clear("rest",function(){})
-                    chrome.alarms.create("work", {
-                        when:scheduledTime + 1000
-                    });
+                    chrome.alarms.clear("rest")
+                    chrAlarmCreate("work",scheduledTime + 1000)
+
+                    const notiOptionsObj = {
+                        type: "basic",
+                        "message":"休憩時間が終わりました。また、作業を頑張りましょう!",
+                        "title":"休憩終了",
+                        "iconUrl":"../image/yosshi.jpg"
+                    }
+                    
+                    chrome.notifications.create(notiOptionsObj)
                 }
-                chrome.storage.local.set({'rest':rest},function(){})
+                chrome.storage.local.set({'rest':rest})
             }
         });
     }

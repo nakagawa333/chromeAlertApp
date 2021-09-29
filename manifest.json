@@ -20,7 +20,8 @@
         "activeTab",
         "scripting",
         "tabs",
-        "alarms"
+        "alarms",
+        "notifications"
     ],
     "options_page":"./options.html"
 }
