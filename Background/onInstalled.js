@@ -1,6 +1,6 @@
 import {getTimerData} from "./getTimerData.js"
 
-chrome.runtime.onInstalled.addListener(async function(details){
+chrome.runtime.onInstalled.addListener(function(details){
     chrome.alarms.clearAll(function(res){})
     const now = new Date()
     const nowTime = now.getTime()
@@ -26,7 +26,7 @@ chrome.runtime.onInstalled.addListener(async function(details){
         "isEvent":false
     }
 
-    await chrome.storage.local.set({'work':work},function(){})
-    await chrome.storage.local.set({'rest':rest},function(){})
-    await chrome.storage.local.set({"stoChanged":true})
+    chrome.storage.local.set({'work':work},function(){})
+    chrome.storage.local.set({'rest':rest},function(){})
+    chrome.storage.local.set({"stoChanged":true})
 });

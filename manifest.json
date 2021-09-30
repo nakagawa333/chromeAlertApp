@@ -21,7 +21,8 @@
         "scripting",
         "tabs",
         "alarms",
-        "notifications"
+        "notifications",
+        "tts"
     ],
     "options_page":"./options.html"
 }

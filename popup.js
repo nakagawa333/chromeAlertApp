@@ -30,6 +30,8 @@ chrome.storage.onChanged.addListener(function(changes,namespace){
                         resGetStoChangedData("rest",chrome.storage.local).then(res => {
                             if(res) differSet(res["rest"]["restDiffer"])
                         })
+
+                        chrome.tts.speak("作業終了!");
                     } else {
                         differSet(newValue["workSubDiffer"])
                     }
@@ -45,6 +47,7 @@ chrome.storage.onChanged.addListener(function(changes,namespace){
                             if(res) differSet(res["work"]["workDiffer"])
                         })
 
+                        chrome.tts.speak("休憩終了!");
                     } else {
                         differSet(newValue["restSubDiffer"])
                     }

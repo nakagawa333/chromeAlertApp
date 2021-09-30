@@ -118,6 +118,10 @@ chrome.runtime.onMessage.addListener(function (req, sender, send) {
                 })
                 
                 chromeActionSetBadgeText(60000)
+                const badgeBackColor = {
+                    "color":"#FF0000"
+                }
+                chrome.action.setBadgeBackgroundColor(badgeBackColor)
                 break;
             }
 
