@@ -1,5 +1,7 @@
 window.onload = (e) => {
+    const timeRegex = /^([0-9]+)(:([0-9]{2}))?$/
     const voiceSelect = document.getElementById("voice_select")
+
     chrome.tts.getVoices(async (voices) => {
         for(const voice of voices){
             if(voice["lang"] === "ja-JP") {
@@ -8,6 +10,18 @@ window.onload = (e) => {
                 voiceSelect.appendChild(optionElem)
             }
         }
+    })
+
+    document.getElementById("work_time").addEventListener("change",(event) => {
+        const val = event.target.value
+        const timeAlertEle = document.getElementById("time_alert")
+        val.match(timeRegex) ? timeAlertEle.style.display = "none" : timeAlertEle.style.display = "block"
+    })
+
+    document.getElementById("rest_time").addEventListener("change",(event) => {
+        const val = event.target.value
+        const timeAlertEle = document.getElementById("time_alert")
+        val.match(timeRegex) ? timeAlertEle.style.display = "none" : timeAlertEle.style.display = "block"
     })
 
     document.getElementById("rate_range").addEventListener("change",(event) => {

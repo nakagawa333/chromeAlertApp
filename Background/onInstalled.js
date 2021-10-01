@@ -1,7 +1,5 @@
-import {getTimerData} from "./getTimerData.js"
-
 chrome.runtime.onInstalled.addListener(function(details){
-    chrome.alarms.clearAll(function(res){})
+    chrome.alarms.clearAll()
     const now = new Date()
     const nowTime = now.getTime()
 
@@ -26,7 +24,7 @@ chrome.runtime.onInstalled.addListener(function(details){
         "isEvent":false
     }
 
-    chrome.storage.local.set({'work':work},function(){})
-    chrome.storage.local.set({'rest':rest},function(){})
+    chrome.storage.local.set({'work':work})
+    chrome.storage.local.set({'rest':rest})
     chrome.storage.local.set({"stoChanged":true})
 });

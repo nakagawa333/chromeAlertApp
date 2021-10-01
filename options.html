@@ -15,15 +15,20 @@
         <h5 class="margin_top_space">眼精疲労タイマー</h5>
         <div class="card margin_top_space">
           <h5 class="margin_top_space">時間</h5>
+
+          <div id="time_alert" class="alert alert-danger" style="display:none;">
+            半角整数のみ入力可能です
+          </div>
+          
           <div class="d-flex justify-content-around border-bottom margin_bottom_space">
               <div class="d-flex margin_bottom_space">
-              <p>作業:</p>
-              <input type="text" class="form-control">
+                <p>作業:</p>
+                <input type="text" id="work_time" class="form-control" value="60">
               </div>
 
               <div class="d-flex margin_bottom_space">
-                  <p>休憩:</p>
-                  <input type="text" class="form-control">
+                <p>休憩:</p>
+                <input type="text" id="rest_time" class="form-control" value="5">
               </div>
           </div>
 
