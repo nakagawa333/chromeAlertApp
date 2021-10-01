@@ -16,18 +16,30 @@ window.onload = (e) => {
     })
 
     document.getElementById("pitch_range").addEventListener("change",(event) => {
-        const rateValEle = document.getElementById("pitch_value")
-        rateValEle.textContent = event.target.value
+        const pitchValEle = document.getElementById("pitch_value")
+        pitchValEle.textContent = event.target.value
+    })
+
+    document.getElementById("play_button").addEventListener("click",(event) => {
+        const voiceName = document.getElementById("voice_select").value
+        const rateValue = Number(document.getElementById("rate_range").value)
+        const pitchValue = Number(document.getElementById("pitch_range").value)
+        ttsSpeak(voiceName,rateValue,pitchValue)
     })
 
     voiceSelect.addEventListener("change",(event) => {
         const voiceName = event.target.value
-        const ttsOptions = {
-            "rate":1,
-            "pitch":1,
-            "voiceName":voiceName
-        }
-
-        chrome.tts.speak("こんにちは",ttsOptions)
+        const rateValue = Number(document.getElementById("rate_range").value)
+        const pitchValue = Number(document.getElementById("pitch_range").value)
+        ttsSpeak(voiceName,rateValue,pitchValue)
     })
+}
+
+function ttsSpeak(voiceName,rateValue,pitchValue){
+    const ttsOptions = {
+        "rate":rateValue,
+        "pitch":pitchValue,
+        "voiceName":voiceName
+    }
+    chrome.tts.speak("こんにちは",ttsOptions)
 }
