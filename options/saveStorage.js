@@ -10,9 +10,6 @@ document.getElementById("save_button").addEventListener("click",(e) => {
     const noticeCheck = document.getElementById("notice_check").checked
     const speakCheck = document.getElementById("speak_check").checked
 
-    chrome.storage.local.set({"notifications":noticeCheck})
-    chrome.storage.local.set({"speak":speakCheck})
-
     const voiceName = document.getElementById("voice_select").value
     const rateValue = Number(document.getElementById("rate_range").value)
     const pitchValue = Number(document.getElementById("pitch_range").value)
@@ -22,5 +19,24 @@ document.getElementById("save_button").addEventListener("click",(e) => {
         "rate":rateValue,
         "pitch":pitchValue
     }
-    chrome.storage.local.set({"speackSetting":speackSettingObj})
+
+    setObj = {
+        "notification":noticeCheck,
+        "speak":speakCheck,
+        "speackSetting":speackSettingObj
+    }
+
+    setChromeStorage(setObj).then((res) => {
+        alert(res)
+    })
 })
+
+async function setChromeStorage(keyObj){
+    let result = await new Promise((res,rej) => {
+        chrome.storage.local.set(keyObj,() => {
+            if(chrome.runtime.lastError) return rej(chrome.runtime.lastError)
+            return res("保存に成功しました")
+        })
+    })
+    return result
+}
