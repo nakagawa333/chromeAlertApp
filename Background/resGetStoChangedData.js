@@ -12,3 +12,4 @@ async function resGetStoChangedData(key,func){
     return result
 }
 
+export {resGetStoChangedData}

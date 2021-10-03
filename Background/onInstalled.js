@@ -7,6 +7,7 @@ chrome.runtime.onInstalled.addListener(function(details){
     workLaster.setMinutes(now.getMinutes() + 1)
 
     let workDiffer = workLaster.getTime() - nowTime
+
     let work = {
         "workDiffer":workDiffer,
         "workSubDiffer":workDiffer,
@@ -14,8 +15,7 @@ chrome.runtime.onInstalled.addListener(function(details){
     }
 
     let restLater = new Date(nowTime)
-    restLater.setMinutes(now.getMinutes() + 1)
-    restLater.setSeconds(now.getSeconds() + 15)
+    restLater.setMinutes(now.getMinutes() + 2)
 
     let restDiffer = restLater.getTime() - nowTime
     let rest = {

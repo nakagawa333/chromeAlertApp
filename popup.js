@@ -1,10 +1,5 @@
 //chromeストレージが変更された場合
 chrome.storage.onChanged.addListener(function(changes,namespace){
-    async function resGetStoChangedData(key,func){
-        const result = await getStoChangedData(key,func)
-        return result
-    }
-
     resGetStoChangedData("stoChanged",chrome.storage.local).then(res => {
         //キャンセル押下以外処理を実行
         if(res["stoChanged"]) setValue(changes)
@@ -16,6 +11,7 @@ chrome.storage.onChanged.addListener(function(changes,namespace){
         const value = changes[key]
         const newValue = value["newValue"]
         const oldValue = value["oldValue"]
+
         switch(key){
             case "differ":
                 let secMinHourOBj = getSecMinHour(changes[key]["newValue"])
@@ -31,7 +27,6 @@ chrome.storage.onChanged.addListener(function(changes,namespace){
                             if(res) differSet(res["rest"]["restDiffer"])
                         })
 
-                        chrome.tts.speak("作業終了!");
                     } else {
                         differSet(newValue["workSubDiffer"])
                     }
@@ -46,8 +41,7 @@ chrome.storage.onChanged.addListener(function(changes,namespace){
                         resGetStoChangedData("work",chrome.storage.local).then(res => {
                             if(res) differSet(res["work"]["workDiffer"])
                         })
-
-                        chrome.tts.speak("休憩終了!");
+                        
                     } else {
                         differSet(newValue["restSubDiffer"])
                     }

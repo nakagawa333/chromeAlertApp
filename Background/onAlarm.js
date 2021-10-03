@@ -1,12 +1,23 @@
 import { chromeActionSetBadgeText } from './chromeActionSetBadgeText.js'
+import { resGetStoChangedData } from "./resGetStoChangedData.js"
 
-function chrAlarmCreate(key,scheduledTime){
-    chrome.alarms.create(key, {
-        when:scheduledTime
-    });
-}
+const speakObj = {}
+resGetStoChangedData("speak",chrome.storage.local).then(res => {
+    Object.assign(speakObj,res)
+})
+
+const speackSettingObj = {}
+resGetStoChangedData("speackSetting",chrome.storage.local).then(res => {
+    Object.assign(speackSettingObj,res)
+})
+
+const notificationObj = {}
+resGetStoChangedData("notification",chrome.storage.local).then(res => {
+    Object.assign(notificationObj,res)
+})
 
 chrome.alarms.onAlarm.addListener(e => {
+
     let scheduledTime = e.scheduledTime
     if(e.name === "work"){
         chrome.storage.local.get('work', (result) => {
@@ -26,14 +37,22 @@ chrome.alarms.onAlarm.addListener(e => {
                 chrAlarmCreate("rest",scheduledTime + 1000)
                 work["isEvent"] = false
 
-                const notiOptionsObj = {
-                    type: "basic",
-                    "message":"作業時間が終わりました。目を休めて休憩しましょう！",
-                    "title":"作業時間が終わりました",
-                    "iconUrl":"../image/yosshi.jpg"
+                //音声
+                if(speakObj["speak"]) {
+                    chrome.tts.speak("作業終了!",speackSettingObj["speackSetting"]);
                 }
-                chrome.notifications.create(notiOptionsObj)
+
+                if(notificationObj["notification"]){
+                    const notiSetttingObj = {
+                        type: "basic",
+                        "message":"作業時間が終わりました。目を休めて休憩しましょう！",
+                        "title":"作業時間が終わりました",
+                        "iconUrl":"../image/yosshi.jpg"
+                    }
+                    chrome.notifications.create(notiSetttingObj)
+                }
             }
+
             chromeActionSetBadgeText(workSubDiffer)
             const badgeBackColor = {
                 "color":"#FF0000"
@@ -61,13 +80,20 @@ chrome.alarms.onAlarm.addListener(e => {
                 chrome.alarms.clear("rest")
                 chrAlarmCreate("work",scheduledTime + 1000)
 
-                const notiOptionsObj = {
-                    type: "basic",
-                    "message":"休憩時間が終わりました。また、作業を頑張りましょう!",
-                    "title":"休憩終了",
-                    "iconUrl":"../image/yosshi.jpg"
+                //音声
+                if(speakObj["speak"]) {
+                    chrome.tts.speak("休憩終了!",speackSettingObj["speackSetting"]);
                 }
-                chrome.notifications.create(notiOptionsObj)
+
+                if(notificationObj["notification"]){
+                    const notiSetttingObj  = {
+                        type: "basic",
+                        "message":"休憩時間が終わりました。また、作業を頑張りましょう!",
+                        "title":"休憩終了",
+                        "iconUrl":"../image/yosshi.jpg"
+                    }
+                    chrome.notifications.create(notiSetttingObj)              
+                }
             }
             chromeActionSetBadgeText(restSubDiffer)
             const badgeBackColor = {
@@ -78,3 +104,9 @@ chrome.alarms.onAlarm.addListener(e => {
         });
     }
 })
+
+function chrAlarmCreate(key,scheduledTime){
+    chrome.alarms.create(key, {
+        when:scheduledTime
+    });
+}
