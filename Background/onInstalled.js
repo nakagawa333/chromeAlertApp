@@ -1,28 +1,34 @@
 chrome.runtime.onInstalled.addListener(function(details){
     chrome.alarms.clearAll()
-    const now = new Date()
-    const nowTime = now.getTime()
+    //1時間
+    //let workDiffer = 60000 * 60
 
-    let workLaster = new Date(nowTime)
-    workLaster.setMinutes(now.getMinutes() + 1)
-
-    let workDiffer = workLaster.getTime() - nowTime
-
+    let workDiffer = 60000 * 60
     let work = {
         "workDiffer":workDiffer,
         "workSubDiffer":workDiffer,
         "isEvent":false
     }
 
-    let restLater = new Date(nowTime)
-    restLater.setMinutes(now.getMinutes() + 2)
-
-    let restDiffer = restLater.getTime() - nowTime
+    //5分
+    let restDiffer = 60000 * 5
     let rest = {
         "restDiffer":restDiffer,
         "restSubDiffer":restDiffer,
         "isEvent":false
     }
+
+    chrome.storage.local.set({"notification":true})
+    chrome.storage.local.set({"speak":false})
+
+    let speakSettingObj = 
+    {
+        "pitch": 1.0,
+        "rate": 1.0,
+        "voiceName": "Microsoft Ichiro - Japanese (Japan)"
+    }
+
+    chrome.storage.local.set({"speackSetting":speakSettingObj})
 
     chrome.storage.local.set({'work':work})
     chrome.storage.local.set({'rest':rest})

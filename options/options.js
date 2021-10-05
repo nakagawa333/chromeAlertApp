@@ -37,8 +37,8 @@ window.onload = async (e) => {
 
     //作業時間
     resGetStoChangedData("work",chrome.storage.local).then(res => {
-        let work = res["work"]
-        if(work){
+        if(Object.keys(res).length !== 0){
+            let work = res["work"]
             workTime = work["workDiffer"] / 60000
             let workTimeEle = document.getElementById("work_time")
             workTimeEle.value = workTime
@@ -47,8 +47,8 @@ window.onload = async (e) => {
 
     //休憩時間
     resGetStoChangedData("rest",chrome.storage.local).then(res => {
-        let rest = res["rest"]
-        if(rest){
+        if(Object.keys(res).length !== 0){
+            let rest = res["rest"]
             restTime = rest["restDiffer"] / 60000
             let restTimeEle = document.getElementById("rest_time")
             restTimeEle.value = restTime
@@ -57,17 +57,49 @@ window.onload = async (e) => {
 
     //通知
     resGetStoChangedData("notification",chrome.storage.local).then(res => {
-        if(res !== undefined){
+        if(Object.keys(res).length !== 0){
             let noticeCheckEle = document.getElementById("notice_check")
             noticeCheckEle.checked = res["notification"]
         }
     })
 
     resGetStoChangedData("speak",chrome.storage.local).then(res => {
-        if(res !== undefined){
+        if(Object.keys(res).length !== 0){
             let speackCheckEle = document.getElementById("speak_check")
             speackCheckEle.checked = res["speak"]
-            console.log(speackCheckEle)
+        }
+    })
+
+    resGetStoChangedData("speackSetting",chrome.storage.local).then(res => {
+        if(Object.keys(res).length !== 0){
+            let speackSetting = res["speackSetting"]
+            let pitch = speackSetting["pitch"]
+            let rate = speackSetting["rate"]
+            let voiceName = speackSetting["voiceName"]
+
+            let rateRange = document.getElementById("rate_range")
+            let pitchRange = document.getElementById("pitch_range")
+            let voiceSelect = document.getElementById("voice_select")
+
+            let rateValue = document.getElementById("rate_value")
+            let pitchValue = document.getElementById("pitch_value")
+
+            rateRange.value = rate.toString()
+            rateValue.textContent = rate.toString()
+            pitchRange.value = pitch.toString()
+            pitchValue.textContent = pitch.toString()
+
+            voiceOptions = voiceSelect.children
+            let index = -1;
+            for(let i = 0; i < voiceOptions.length; i++){
+                if(voiceOptions[i].innerText === voiceName){
+                    index = i
+                }
+            }
+
+            if(index !== -1){
+                voiceSelect.selectedIndex = index
+            }
         }
     })
     //ここからイベント
