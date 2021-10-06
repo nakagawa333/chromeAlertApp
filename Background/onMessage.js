@@ -1,5 +1,7 @@
 import {getTimerData} from "./getTimerData.js"
 import {chromeActionSetBadgeText} from "./chromeActionSetBadgeText.js"
+import { resGetStoChangedData } from "./resGetStoChangedData.js"
+
 
 chrome.runtime.onMessage.addListener(function (req, sender, send) {
     //フロント側ページ読み込み時
@@ -95,6 +97,7 @@ chrome.runtime.onMessage.addListener(function (req, sender, send) {
                 Promise.all([work,rest]).then((values) => {
                     let restObj = {}
                     let workObj = {}
+
                     //休憩時間
                     if(values[1]){
                         restObj = values[1]["rest"]
@@ -112,8 +115,16 @@ chrome.runtime.onMessage.addListener(function (req, sender, send) {
                         "rest":restObj,
                         "work":workObj
                     }
+
+                    let workDiffer = workObj["workDiffer"]
+
                     chrome.storage.local.set({"stoChanged":false})
                     chrome.storage.local.set(obj)
+
+                    let actionObj = {
+                        text:(workDiffer / 60000).toString() + "分"
+                    }
+                    chrome.action.setBadgeText(actionObj)
                     send(workObj["workDiffer"])
                 })
                 
@@ -121,6 +132,7 @@ chrome.runtime.onMessage.addListener(function (req, sender, send) {
                 const badgeBackColor = {
                     "color":"#FF0000"
                 }
+
                 chrome.action.setBadgeBackgroundColor(badgeBackColor)
                 break;
             }

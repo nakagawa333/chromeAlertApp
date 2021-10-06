@@ -25,7 +25,7 @@ chrome.runtime.onInstalled.addListener(function(details){
     {
         "pitch": 1.0,
         "rate": 1.0,
-        "voiceName": "Microsoft Ichiro - Japanese (Japan)"
+        "voiceName": "Microsoft Ayumi - Japanese (Japan)"
     }
 
     chrome.storage.local.set({"speackSetting":speakSettingObj})

@@ -43,6 +43,18 @@ document.getElementById("save_button").addEventListener("click",(e) => {
 
     setChromeStorage(setObj).then((res) => {
         alert(res)
+
+        resGetStoChangedData("work",chrome.storage.local).then(result => {
+            let work = result["work"]
+            if(work){
+                let workDiffer = work["workDiffer"]
+                console.log(chrome.action)
+                chrome.action.setBadgeText({
+                    "text":(workDiffer / 60000).toString() + "分"
+                })
+            }
+
+        })
     })
 })
 

@@ -37,7 +37,6 @@ chrome.alarms.onAlarm.addListener(e => {
                 chrAlarmCreate("rest",scheduledTime + 1000)
                 work["isEvent"] = false
 
-                console.log(speakObj["speak"])
                 //音声
                 if(speakObj["speak"]) {
                     chrome.tts.speak("作業終了!",speackSettingObj["speackSetting"]);
