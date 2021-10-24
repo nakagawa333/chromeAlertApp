@@ -2,6 +2,15 @@ body{
     background-color: lime;
 }
 
+#time_button_list{
+    display: flex; 
+    justify-content: center;
+}
+
+#time_button_list #button_start #button_stop{
+    margin-right:20px;
+}
+
 .btn{
     display: inline-block;
     font-weight: 400;

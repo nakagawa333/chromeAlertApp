@@ -6,3 +6,9 @@ import "./onMessage.js"
 import "./onAlarm.js"
 import "./setBadge.js"
 
+chrome.notifications.getAll((e) => {
+    const keys = Object.keys(e)
+    for(let key of keys){
+        chrome.notifications.clear(key)
+    }
+})

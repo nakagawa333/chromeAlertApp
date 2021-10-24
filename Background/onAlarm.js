@@ -1,5 +1,6 @@
 import { chromeActionSetBadgeText } from './chromeActionSetBadgeText.js'
 import { resGetStoChangedData } from "./resGetStoChangedData.js"
+import { sleep } from './sleep.js'
 
 const speakObj = {}
 resGetStoChangedData("speak",chrome.storage.local).then(res => {
@@ -67,7 +68,10 @@ chrome.alarms.onAlarm.addListener(e => {
                         "title":"作業時間が終わりました",
                         "iconUrl":"../image/work.jpg"
                     }
-                    chrome.notifications.create(notiSetttingObj)
+                    chrome.notifications.create(notiSetttingObj,async(key) => {
+                        await sleep(5)
+                        chrome.notifications.clear(key)
+                    })
                 }
 
                 let rest = restObj["rest"]
@@ -119,7 +123,10 @@ chrome.alarms.onAlarm.addListener(e => {
                         "title":"休憩終了",
                         "iconUrl":"../image/rest.jpg"
                     }
-                    chrome.notifications.create(notiSetttingObj)              
+                    chrome.notifications.create(notiSetttingObj,async(key) => {
+                        await sleep(5)
+                        chrome.notifications.clear(key)
+                    })              
                 }
 
                 let work = workObj["work"]
@@ -143,3 +150,5 @@ function chrAlarmCreate(key,scheduledTime){
         when:scheduledTime
     });
 }
+
+export {chrAlarmCreate}
