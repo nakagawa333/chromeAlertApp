@@ -3,7 +3,7 @@ chrome.runtime.onInstalled.addListener(function(details){
     //1時間
     //let workDiffer = 60000 * 60
 
-    let workDiffer = 60000 * 60
+    let workDiffer = 60000 * 1
     let work = {
         "workDiffer":workDiffer,
         "workSubDiffer":workDiffer,
@@ -11,7 +11,7 @@ chrome.runtime.onInstalled.addListener(function(details){
     }
 
     //5分
-    let restDiffer = 60000 * 5
+    let restDiffer = 60000 * 2
     let rest = {
         "restDiffer":restDiffer,
         "restSubDiffer":restDiffer,

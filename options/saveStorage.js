@@ -48,7 +48,6 @@ document.getElementById("save_button").addEventListener("click",(e) => {
             let work = result["work"]
             if(work){
                 let workDiffer = work["workDiffer"]
-                console.log(chrome.action)
                 chrome.action.setBadgeText({
                     "text":(workDiffer / 60000).toString() + "分"
                 })

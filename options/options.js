@@ -1,3 +1,10 @@
+let alearm = chrome.alarms.onAlarm.addListener(function(e) {
+    console.log(e)
+  
+});
+
+console.log(alearm)
+
 
 window.onload = async (e) => {
     if(!navigator.onLine) {
