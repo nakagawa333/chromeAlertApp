@@ -6,10 +6,11 @@ window.onload = (e) => {
             event: "click",
             state: "start"
         }, function(response) {
-            if(response === "スタート"){
-                let startAudio = new myAudio("./Audio/start.wav")
-                startAudio.audioLoad()
-            }
+            //音声出力廃止
+            // if(response === "スタート"){
+            //     let startAudio = new myAudio("./Audio/start.wav")
+            //     startAudio.audioLoad()
+            // }
         });
     }
 

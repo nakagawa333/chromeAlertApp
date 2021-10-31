@@ -151,4 +151,3 @@ function chrAlarmCreate(key,scheduledTime){
     });
 }
 
-export {chrAlarmCreate}
