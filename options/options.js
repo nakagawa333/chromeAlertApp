@@ -1,9 +1,10 @@
-let alearm = chrome.alarms.onAlarm.addListener(function(e) {
-    console.log(e)
-  
+let alarm = chrome.alarms.onAlarm.addListener(function(e) {
+    let work_time = document.getElementById("work_time")
+    let rest_time = document.getElementById("rest_time")
+    work_time.disabled = true
+    rest_time.disabled = true
 });
 
-console.log(alearm)
 
 
 window.onload = async (e) => {
