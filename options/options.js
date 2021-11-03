@@ -19,26 +19,17 @@ function checkAlarm(time){
     },time)
 }
 
-
-window.onload = async (e) => {
-
-    let workData = resGetStoChangedData("work",chrome.alarms)
-    let restData = resGetStoChangedData("rest",chrome.alarms)
-
-    let arr = []
-    await Promise.all([workData,restData]).then((res) => {
-        arr.push(res[0])
-        arr.push(res[1])
+document.addEventListener("DOMContentLoaded",async (e) => {
+    chrome.storage.local.get("optionSave",(res) => {
+        if(!res["optionSave"]){
+            work_time.disabled = true
+            rest_time.disabled = true
+        } else {
+            work_time.disabled = false
+            rest_time.disabled = false                     
+        }
     })
 
-    let isArrBool = arr.every((val) => val === undefined)
-    if(!isArrBool){
-        let workTime = document.getElementById("work_time")
-        workTime.disabled = true
-        let restTime = document.getElementById("rest_time")
-        restTime.disabled = true
-    }
-    
     const timeRegex = /^([0-9]+)(:([0-9]{2}))?$/
     const voiceSelect = document.getElementById("voice_select")
 
@@ -155,8 +146,8 @@ window.onload = async (e) => {
         const rateValue = Number(document.getElementById("rate_range").value)
         const pitchValue = Number(document.getElementById("pitch_range").value)
         ttsSpeak(voiceName,rateValue,pitchValue)
-    })
-}
+    })    
+})
 
 function ttsSpeak(voiceName,rateValue,pitchValue){
     const ttsOptions = {
