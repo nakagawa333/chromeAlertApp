@@ -7,7 +7,6 @@ function checkAlarm(time){
 
     let timeout = setTimeout(function main(){
         chrome.storage.local.get("optionSave",(res) => {
-            console.log(res)
             if(!res["optionSave"]){
                 work_time.disabled = true
                 rest_time.disabled = true
@@ -22,10 +21,6 @@ function checkAlarm(time){
 
 
 window.onload = async (e) => {
-    if(!navigator.onLine) {
-        alert("オフラインになっています。")
-        return false
-    }
 
     let workData = resGetStoChangedData("work",chrome.alarms)
     let restData = resGetStoChangedData("rest",chrome.alarms)

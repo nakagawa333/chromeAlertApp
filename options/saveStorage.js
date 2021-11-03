@@ -41,30 +41,39 @@ document.getElementById("save_button").addEventListener("click",(e) => {
         "speackSetting":speackSettingObj
     }
 
-    chrome.alarms.getAll((list) => {
-        let isAlarm = list.some((e) => e.name === "work" || e.name === "rest")
-        
-        if(isAlarm){
+    getChromeStorage("optionSave",chrome.storage.local).then((res) => {
+        let optionSave = res["optionSave"]
+        if(!optionSave){
             delete setObj.work
             delete setObj.rest
         }
 
-        setChromeStorage(setObj).then((res) => {
+        setChromeStorage(setObj)
+        .then((res) => {
             alert(res)
 
-            resGetStoChangedData("work",chrome.storage.local).then(result => {
-                let work = result["work"]
-                if(work){
-                    let workDiffer = work["workDiffer"]
-                    chrome.action.setBadgeText({
-                        "text":(workDiffer / 60000).toString() + "分"
-                    })
-                }
-    
-            })
+            if(optionSave){
+                resGetStoChangedData("work",chrome.storage.local).then(result => {
+                    let work = result["work"]
+                    if(work){
+                        let workDiffer = work["workDiffer"]
+                        chrome.action.setBadgeText({
+                            "text":(workDiffer / 60000).toString() + "分"
+                        })
+                    }                    
+                })
+            }
+        })
+        .catch((res) => {
+            alert("失敗しました")
         })
     })
 })
+
+async function getChromeStorage(key,func){
+    const res = await getStoChangedData(key,func)
+    return res
+}
 
 async function setChromeStorage(keyObj){
     let result = await new Promise((res,rej) => {
