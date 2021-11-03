@@ -41,18 +41,27 @@ document.getElementById("save_button").addEventListener("click",(e) => {
         "speackSetting":speackSettingObj
     }
 
-    setChromeStorage(setObj).then((res) => {
-        alert(res)
+    chrome.alarms.getAll((list) => {
+        let isAlarm = list.some((e) => e.name === "work" || e.name === "rest")
+        
+        if(isAlarm){
+            delete setObj.work
+            delete setObj.rest
+        }
 
-        resGetStoChangedData("work",chrome.storage.local).then(result => {
-            let work = result["work"]
-            if(work){
-                let workDiffer = work["workDiffer"]
-                chrome.action.setBadgeText({
-                    "text":(workDiffer / 60000).toString() + "分"
-                })
-            }
+        setChromeStorage(setObj).then((res) => {
+            alert(res)
 
+            resGetStoChangedData("work",chrome.storage.local).then(result => {
+                let work = result["work"]
+                if(work){
+                    let workDiffer = work["workDiffer"]
+                    chrome.action.setBadgeText({
+                        "text":(workDiffer / 60000).toString() + "分"
+                    })
+                }
+    
+            })
         })
     })
 })

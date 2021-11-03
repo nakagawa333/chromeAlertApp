@@ -1,10 +1,24 @@
-let alarm = chrome.alarms.onAlarm.addListener(function(e) {
+checkAlarm(1000)
+
+//一秒毎に
+function checkAlarm(time){
     let work_time = document.getElementById("work_time")
     let rest_time = document.getElementById("rest_time")
-    work_time.disabled = true
-    rest_time.disabled = true
-});
 
+    let timeout = setTimeout(function main(){
+        chrome.storage.local.get("optionSave",(res) => {
+            console.log(res)
+            if(!res["optionSave"]){
+                work_time.disabled = true
+                rest_time.disabled = true
+            } else {
+                work_time.disabled = false
+                rest_time.disabled = false                     
+            }
+        })
+        timeout = setTimeout(main,time)
+    },time)
+}
 
 
 window.onload = async (e) => {

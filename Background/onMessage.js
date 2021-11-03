@@ -30,6 +30,7 @@ chrome.runtime.onMessage.addListener(function (req, sender, send) {
                 const work = getTimerData("work",chrome.alarms)
                 const rest = getTimerData("rest",chrome.alarms)
 
+                chrome.storage.local.set({"optionSave":false})
                 const workData = getTimerData("work",chrome.storage.local)
                 const restData = getTimerData("rest",chrome.storage.local)
 
@@ -40,7 +41,6 @@ chrome.runtime.onMessage.addListener(function (req, sender, send) {
                     chrome.storage.local.set({"stoChanged":true})
                     //まだ一度もタイマーを起動してない場合
                     if(!workObj.isEvent && !restObj.isEvent){
-
                         chrome.alarms.create("work", {
                             when:Date.now() + 1000
                         });
@@ -84,6 +84,7 @@ chrome.runtime.onMessage.addListener(function (req, sender, send) {
             case "stop":{
                 chrome.alarms.clear("work")
                 chrome.alarms.clear("rest")
+                chrome.storage.local.set({"optionSave":false})
                 break;
             }
 
@@ -91,6 +92,7 @@ chrome.runtime.onMessage.addListener(function (req, sender, send) {
                 chrome.alarms.clear("work")
                 chrome.alarms.clear("rest")
 
+                chrome.storage.local.set({"optionSave":true})
                 const work = getTimerData("work",chrome.storage.local)
                 const rest = getTimerData("rest",chrome.storage.local)
 

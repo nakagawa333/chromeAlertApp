@@ -33,4 +33,5 @@ chrome.runtime.onInstalled.addListener(function(details){
     chrome.storage.local.set({'work':work})
     chrome.storage.local.set({'rest':rest})
     chrome.storage.local.set({"stoChanged":true})
+    chrome.storage.local.set({"optionSave":true})
 });
