@@ -33,7 +33,7 @@ chrome.runtime.onMessage.addListener(function (req, sender, send) {
                 chrome.storage.local.set({"optionSave":false})
                 const workData = getTimerData("work",chrome.storage.local)
                 const restData = getTimerData("rest",chrome.storage.local)
-
+                
                 Promise.all([workData,restData]).then((value) => {
                     let workObj = value[0]["work"]
                     let restObj = value[1]["rest"]
