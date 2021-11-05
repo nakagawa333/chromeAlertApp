@@ -12,3 +12,4 @@ chrome.notifications.getAll((e) => {
         chrome.notifications.clear(key)
     }
 })
+

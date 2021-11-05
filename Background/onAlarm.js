@@ -30,7 +30,14 @@ resGetStoChangedData("rest",chrome.storage.local).then(res => {
 
 chrome.alarms.onAlarm.addListener(e => {
     let scheduledTime = e.scheduledTime
-    
+    let nowTime = new Date().getTime()
+
+    //端末の電源落とした際の処理
+    if(scheduledTime + 1000 < nowTime){
+        chrome.alarms.clearAll()
+        return false;
+    }
+
     if(e.name === "work"){
         chrome.storage.local.get('work', (result) => {
             let work = result["work"]
