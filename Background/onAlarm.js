@@ -27,7 +27,6 @@ resGetStoChangedData("rest",chrome.storage.local).then(res => {
     Object.assign(restObj,res)
 })
 
-
 chrome.alarms.onAlarm.addListener(e => {
     let scheduledTime = e.scheduledTime
     let nowTime = new Date().getTime()
@@ -37,9 +36,10 @@ chrome.alarms.onAlarm.addListener(e => {
         chrome.alarms.clearAll()
         return false;
     }
-
+    
     if(e.name === "work"){
         chrome.storage.local.get('work', (result) => {
+
             let work = result["work"]
             let workSubDiffer = work["workSubDiffer"]
             let badgeBackColor = {}
@@ -56,7 +56,7 @@ chrome.alarms.onAlarm.addListener(e => {
                 badgeBackColor["color"] = "#FF0000"
 
             } else {
-                // 残り時間が0の場合 work
+                // 残り時間が0の場合
                 work["workSubDiffer"] = work["workDiffer"]
                 chrome.alarms.clear("work")
 

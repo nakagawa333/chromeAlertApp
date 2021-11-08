@@ -40,7 +40,7 @@ body{
 #button_stop{
     color:#fff;
     background-color: green;
-    border-color:green;
+    border-color:rgb(163, 182, 163);
 }
 
 #button_reset{
@@ -53,6 +53,11 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
+    /* justify-content: center; */
+}
+
+#flex > p{
+    font-size: 20px;
 }
 
 .top_space{

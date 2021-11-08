@@ -2,7 +2,6 @@ import {getTimerData} from "./getTimerData.js"
 import {chromeActionSetBadgeText} from "./chromeActionSetBadgeText.js"
 import { resGetStoChangedData } from "./resGetStoChangedData.js"
 
-
 chrome.runtime.onMessage.addListener(function (req, sender, send) {
     //フロント側ページ読み込み時
     if (req["event"] === "contentLoad") {
