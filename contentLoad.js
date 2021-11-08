@@ -3,7 +3,6 @@ document.addEventListener('DOMContentLoaded', function(){
         event:"contentLoad"
 
     },function(response){
-        console.log(response)
         if(response !== "失敗しました"){
             let work = response["work"]
             let rest = response["rest"]
